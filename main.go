@@ -58,6 +58,8 @@ func getValue(e ast.Expr) string {
 	switch x := e.(type) {
 	case *ast.BasicLit:
 		arg = x.Value
+	case *ast.Ident:
+		arg = "Ident"
 	default:
 		arg = "unknown"
 	}
@@ -85,7 +87,7 @@ func main() {
 
 	ast.Print(fset, exp)
 
-	for _, v := range(*exp) {
+	for _, v := range *exp {
 		fmt.Println(getValue(v))
 	}
 }
