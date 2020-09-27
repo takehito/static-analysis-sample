@@ -53,6 +53,18 @@ func inspect() (func(ast.Node) bool, *[]ast.Expr) {
 	}, &exp
 }
 
+func getValue(e ast.Expr) string {
+	var arg string
+	switch x := e.(type) {
+	case *ast.BasicLit:
+		arg = x.Value
+	default:
+		arg = "unknown"
+	}
+
+	return arg
+}
+
 func main() {
 	file_name := os.Args[1]
 
@@ -61,8 +73,6 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	ast.Print(fset, f)
 
 	if !hasOSPackage(f.Imports) {
 		fmt.Println("no os package")
@@ -74,4 +84,8 @@ func main() {
 	ast.Inspect(f, inspectFunc)
 
 	ast.Print(fset, exp)
+
+	for _, v := range(*exp) {
+		fmt.Println(getValue(v))
+	}
 }
