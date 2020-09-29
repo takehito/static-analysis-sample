@@ -1,4 +1,8 @@
 goimports:
 	goimports -w *.go
-build: goimports
+gofmt:
+	go fmt
+build: goimports gofmt
 	go build
+test: goimports gofmt
+	go test
